@@ -8,6 +8,8 @@ Github: @d02d33pak
 """
 
 from PyQt5 import QtWidgets as qtw
+from PyQt5 import QtCore as qtc
+from PyQt5 import QtGui as qtg
 from PyQt5 import QtPrintSupport as qtp
 
 import os
@@ -41,58 +43,64 @@ class MainWindow(qtw.QMainWindow):
         self.status.showMessage('Ready')
         self.setStatusBar(self.status)
 
-
+        # menu bar [alt + 'x']
         file_menu = self.menuBar().addMenu('&File')
         edit_menu = self.menuBar().addMenu('&Edit')
         view_menu = self.menuBar().addMenu('&View')
 
+        # toolbar [clickable icons]
+        file_toolbar = qtw.QToolBar('File')
+        edit_toolbar = qtw.QToolBar('Edit')
+        self.addToolBar(file_toolbar)
+        self.addToolBar(edit_toolbar)
 
-        open_file_action = qtw.QAction('Open', self)
+
+        open_file_action = qtw.QAction(qtg.QIcon(os.path.join('images', 'open.png')), 'Open', self)
         open_file_action.setStatusTip('Open File')
         open_file_action.setShortcut('Ctrl+O')
         open_file_action.triggered.connect(self.open_file)
 
-        save_file_action = qtw.QAction('Save', self)
+        save_file_action = qtw.QAction(qtg.QIcon(os.path.join('images', 'save.png')), 'Save', self)
         save_file_action.setStatusTip('Save File')
         save_file_action.setShortcut('Ctrl+S')
         save_file_action.triggered.connect(self.save_file)
 
-        save_as_file_action = qtw.QAction('Save as', self)
+        save_as_file_action = qtw.QAction(qtg.QIcon(os.path.join('images', 'save.png')), 'Save as', self)
         save_as_file_action.setStatusTip('Save File as')
         save_as_file_action.setShortcut('Ctrl+J')
         save_as_file_action.triggered.connect(self.save_as)
 
-        print_action = qtw.QAction('Print', self)
+        print_action = qtw.QAction(qtg.QIcon(os.path.join('images', 'print.png')), 'Print', self)
         print_action.setStatusTip('Print current file')
         print_action.setShortcut('Ctrl+P')
         print_action.triggered.connect(self.print_file)
 
-        undo_action = qtw.QAction('Undo', self)
+        undo_action = qtw.QAction(qtg.QIcon(os.path.join('images', 'undo.png')), 'Undo', self)
         undo_action.setStatusTip('Undo last change')
         undo_action.setShortcut('Ctrl+U')
         undo_action.triggered.connect(self.editor.undo)
 
-        redo_action = qtw.QAction('Redo', self)
+        redo_action = qtw.QAction(qtg.QIcon(os.path.join('images', 'redo.png')), 'Redo', self)
         redo_action.setStatusTip('Redo last change')
         redo_action.setShortcut('Ctrl+R')
         redo_action.triggered.connect(self.editor.redo)
 
-        cut_action = qtw.QAction('Cut', self)
+        cut_action = qtw.QAction(qtg.QIcon(os.path.join('images', 'cut.png')), 'Cut', self)
         cut_action.setStatusTip('Cut selected text')
         cut_action.setShortcut('Ctrl+X')
         cut_action.triggered.connect(self.editor.cut)
         
-        copy_action = qtw.QAction('Copy', self)
+        copy_action = qtw.QAction(qtg.QIcon(os.path.join('images', 'copy.png')), 'Copy', self)
         copy_action.setStatusTip('Copy selected text')
         copy_action.setShortcut('Ctrl+C')
         copy_action.triggered.connect(self.editor.copy)
 
-        paste_action = qtw.QAction('Paste', self)
+        paste_action = qtw.QAction(qtg.QIcon(os.path.join('images', 'paste.png')), 'Paste', self)
         paste_action.setStatusTip('Paste from clipboard')
         paste_action.setShortcut('Ctrl+V')
         paste_action.triggered.connect(self.editor.paste)
 
-        select_action = qtw.QAction('Select All', self)
+        select_action = qtw.QAction(qtg.QIcon(os.path.join('images', 'select.png')), 'Select All', self)
         select_action.setStatusTip('Select all text')
         select_action.setShortcut('Ctrl+A')
         select_action.triggered.connect(self.editor.selectAll)
@@ -110,13 +118,25 @@ class MainWindow(qtw.QMainWindow):
         exit_action.setShortcut('Ctrl+Q')
         exit_action.triggered.connect(qtw.qApp.quit)
 
-        # adding actions to each menu
+        # adding actions to toolbar and menubar
+        file_toolbar.addAction(open_file_action)
+        file_toolbar.addAction(save_file_action)
+        file_toolbar.addAction(save_as_file_action)
+        file_toolbar.addAction(print_action)
+        # ---
         file_menu.addAction(open_file_action)
         file_menu.addAction(save_file_action)
         file_menu.addAction(save_as_file_action)
         file_menu.addSeparator()
         file_menu.addAction(print_action)
 
+        edit_toolbar.addAction(undo_action)
+        edit_toolbar.addAction(redo_action)
+        edit_toolbar.addAction(cut_action)
+        edit_toolbar.addAction(copy_action)
+        edit_toolbar.addAction(paste_action)
+        edit_toolbar.addAction(select_action)
+        # ---
         edit_menu.addAction(undo_action)
         edit_menu.addAction(redo_action)
         edit_menu.addSeparator()
