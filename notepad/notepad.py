@@ -1,3 +1,12 @@
+#!usr/bin/env Python3
+
+"""
+NotePad Clone Application
+
+Author: Deepak Talan
+Github: @d02d33pak
+"""
+
 from PyQt5 import QtWidgets as qtw
 from PyQt5 import QtPrintSupport as qtp
 
