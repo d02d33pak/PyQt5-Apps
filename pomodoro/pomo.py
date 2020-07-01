@@ -13,12 +13,14 @@ instead of 25 mins and 5 mins respectively
 from PyQt5 import QtWidgets as qtw
 from PyQt5 import QtCore as qtc
 from PyQt5 import QtGui as qtg
+from PyQt5 import QtMultimedia as qtm
 
 import sys
 import time
 
-POMO_TIME = 25 # 60sec*25 is focus time
+POMO_TIME = 25  # 60sec*25 is focus time
 BREAK_TIME = 5  # 60sec*5 is break time
+SOUND_FILE = 'sounds/sound.wav'
 
 
 class CounterThread(qtc.QThread):
@@ -35,19 +37,20 @@ class CounterThread(qtc.QThread):
         session_time = 0
         while CounterThread.running:
             if on_focus and session_time <= POMO_TIME:
-                prg_perc = int((session_time / POMO_TIME ) * 100)
+                prg_perc = int((session_time / POMO_TIME) * 100)
                 prg_str = str(POMO_TIME - session_time) + ':00'
                 self.countChanged.emit(prg_perc, prg_str)
-                session_time+=1
+                session_time += 1
                 time.sleep(1)
             elif on_break and session_time <= BREAK_TIME:
-                prg_perc = int((session_time / BREAK_TIME ) * 100)
+                prg_perc = int((session_time / BREAK_TIME) * 100)
                 prg_str = str(BREAK_TIME - session_time) + ':00'
                 self.countChanged.emit(prg_perc, prg_str)
-                session_time+=1
+                session_time += 1
                 time.sleep(1)
             else:
-                if on_focus: self.pomoComplete.emit()
+                if on_focus:
+                    self.pomoComplete.emit()
                 on_focus, on_break = not on_focus, not on_break
                 session_time = 0
         return
@@ -62,7 +65,7 @@ class MainWindow(qtw.QWidget):
 
         layout = qtw.QVBoxLayout()
         btn_layout = qtw.QHBoxLayout()
-        
+
         self.pomos = 0
         self.pomo_label = qtw.QLabel('Pomodoro Completed')
         self.pomo_label.setAlignment(qtc.Qt.AlignCenter)
@@ -108,10 +111,11 @@ class MainWindow(qtw.QWidget):
 
     def update_progress(self, value, time):
         self.progress.setValue(value)
-        self.progress.setFormat(time) # for text on the progress bar
+        self.progress.setFormat(time)  # for text on the progress bar
 
     def update_pomo(self):
-        self.pomos+=1
+        self.pomos += 1
+        qtm.QSound.play(SOUND_FILE)
         self.pomo_count.setText(str(self.pomos))
 
     def stop_pomo(self):
