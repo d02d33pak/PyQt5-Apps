@@ -3,11 +3,11 @@
 ### NotePad--
 ![notepadminusminus](/screenshots/notepad.png)
 
+### Pomodoro App
+![pomo](/screenshots/pomo.gif)
+
 ### Timer App
 ![timer](/screenshots/timer.png)
-
-### Pomodoro App
-![pomo](/screenshots/pomo.png)
 
 > Heavily inspired from [this](https://github.com/learnpyqt/15-minute-apps) project
 
