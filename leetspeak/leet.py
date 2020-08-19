@@ -36,13 +36,16 @@ class MainWindow(qtw.QMainWindow):
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
 
-        self.setGeometry(600, 200, 440, 400)
+        self.setGeometry(600, 200, 440, 440)
         self.setWindowTitle("Leet Speak Generator")
+
+        self.toggle_state = False
 
         # Main Container Widget
         container = qtw.QWidget()
 
         main_vert_layout = qtw.QVBoxLayout()
+        top_horz_layout = qtw.QHBoxLayout()
         cntr_horz_layout = qtw.QHBoxLayout()
         bttm_horz_layout = qtw.QHBoxLayout()
 
@@ -56,6 +59,14 @@ class MainWindow(qtw.QMainWindow):
         self.input_box = qtw.QPlainTextEdit()
         self.input_box.setLineWrapMode(1)
         self.input_box.zoomIn(4)
+
+        self.live_trnsltn_btn = qtw.QCheckBox("Live Translation")
+        self.live_trnsltn_btn.setStatusTip("Translate as you type")
+        self.leet_radio = qtw.QRadioButton("Leet Speak")
+        self.leet_radio.setChecked(True)
+        self.leet_radio.setEnabled(False)
+        self.human_radio = qtw.QRadioButton("Human Speak")
+        self.human_radio.setEnabled(False)
 
         self.encode_btn = qtw.QPushButton("Generate Leet Speak")
         self.encode_btn.setStatusTip(" Convert Human Speak to Leet Speak")
@@ -76,14 +87,22 @@ class MainWindow(qtw.QMainWindow):
         self.clear_out_btn.setStatusTip(" Clear all text from output box")
 
         # Connecting all buttons to their respective functions
-        # self.input_box.textChanged.connect(lambda: self.encode_leet(True))
+        self.live_trnsltn_btn.stateChanged.connect(self.toggle_live_trnsltn)
+        self.leet_radio.toggled.connect(self.toggle_speak)
+        self.human_radio.toggled.connect(self.toggle_speak)
+
         self.encode_btn.clicked.connect(lambda: self.encode_leet(True))
         self.decode_btn.clicked.connect(self.decode_leet)
+
         self.copy_btn.clicked.connect(self.copy_output)
         self.clear_inp_btn.clicked.connect(lambda: self.clear_box(0))
         self.clear_out_btn.clicked.connect(lambda: self.clear_box(1))
 
         # Layout Management
+        top_horz_layout.addWidget(self.live_trnsltn_btn)
+        top_horz_layout.addWidget(self.leet_radio)
+        top_horz_layout.addWidget(self.human_radio)
+
         cntr_horz_layout.addWidget(self.encode_btn)
         cntr_horz_layout.addWidget(self.decode_btn)
 
@@ -93,6 +112,7 @@ class MainWindow(qtw.QMainWindow):
 
         main_vert_layout.addWidget(self.input_lbl)
         main_vert_layout.addWidget(self.input_box)
+        main_vert_layout.addLayout(top_horz_layout)
         main_vert_layout.addLayout(cntr_horz_layout)
         main_vert_layout.addWidget(self.output_lbl)
         main_vert_layout.addWidget(self.output_box)
@@ -117,6 +137,24 @@ class MainWindow(qtw.QMainWindow):
     def decode_leet(self):
         """ Decode Leet to Human """
         self.encode_leet(False)
+
+    def toggle_live_trnsltn(self):
+        """ Enable Live Translation options """
+        self.toggle_state = not self.toggle_state
+        # enable/disable both radio buttons
+        self.human_radio.setEnabled(not self.human_radio.isEnabled())
+        self.leet_radio.setEnabled(not self.leet_radio.isEnabled())
+        if self.toggle_state:
+            self.toggle_speak()
+        else:
+            self.input_box.disconnect()
+
+    def toggle_speak(self):
+        """ Toggle Live Translation Speak """
+        if self.leet_radio.isChecked():
+            self.input_box.textChanged.connect(lambda: self.encode_leet(True))
+        elif self.human_radio.isChecked():
+            self.input_box.textChanged.connect(self.decode_leet)
 
     def copy_output(self):
         """ Copy Output Speak """
