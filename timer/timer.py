@@ -7,21 +7,23 @@ Author: Deepak Talan
 Github: @d02d33pak
 """
 
-from PyQt5 import QtWidgets as qtw
+import sys
+
 from PyQt5 import QtCore as qtc
 from PyQt5 import QtGui as qtg
-
-import sys
+from PyQt5 import QtWidgets as qtw
 
 
 class MainWindow(qtw.QMainWindow):
+    """ Main Window """
+
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
 
         # main window position and dimensions
         # args = x_pos, y_pos, width, height
         self.setGeometry(400, 200, 400, 200)
-        self.setWindowTitle('Timer')
+        self.setWindowTitle("Timer")
 
         main_layout = qtw.QVBoxLayout()
         time_layout = qtw.QHBoxLayout()
@@ -31,10 +33,10 @@ class MainWindow(qtw.QMainWindow):
         self.curr_time = qtc.QTime(00, 00, 00)
 
         # timer
-        self.time_label = qtw.QLabel(self.curr_time.toString('hh:mm'))
-        self.sec_label = qtw.QLabel(self.curr_time.toString('ss'))
-        l_font = qtg.QFont('Arial', 40)
-        s_font = qtg.QFont('Arial', 20)
+        self.time_label = qtw.QLabel(self.curr_time.toString("hh:mm"))
+        self.sec_label = qtw.QLabel(self.curr_time.toString("ss"))
+        l_font = qtg.QFont("Arial", 40)
+        s_font = qtg.QFont("Arial", 20)
         self.time_label.setFont(l_font)
         self.sec_label.setFont(s_font)
 
@@ -42,12 +44,12 @@ class MainWindow(qtw.QMainWindow):
         self.timer.timeout.connect(self.update_time)
 
         # control buttons
-        self.start_btn = qtw.QPushButton('Start')
+        self.start_btn = qtw.QPushButton("Start")
         self.start_btn.clicked.connect(self.start_timer)
-        self.stop_btn = qtw.QPushButton('Stop')
+        self.stop_btn = qtw.QPushButton("Stop")
         self.stop_btn.setEnabled(False)
         self.stop_btn.clicked.connect(self.stop_timer)
-        self.reset_btn = qtw.QPushButton('Reset')
+        self.reset_btn = qtw.QPushButton("Reset")
         self.reset_btn.clicked.connect(self.reset_timer)
 
         time_layout.addWidget(self.time_label)
@@ -80,13 +82,13 @@ class MainWindow(qtw.QMainWindow):
     def reset_timer(self):
         self.stop_timer()
         self.curr_time = qtc.QTime(00, 00, 00)
-        self.time_label.setText(self.curr_time.toString('hh:mm'))
-        self.sec_label.setText(self.curr_time.toString('ss'))
+        self.time_label.setText(self.curr_time.toString("hh:mm"))
+        self.sec_label.setText(self.curr_time.toString("ss"))
 
     def update_time(self):
         self.curr_time = self.curr_time.addSecs(1)
-        self.time_label.setText(self.curr_time.toString('hh:mm'))
-        self.sec_label.setText(self.curr_time.toString('ss'))
+        self.time_label.setText(self.curr_time.toString("hh:mm"))
+        self.sec_label.setText(self.curr_time.toString("ss"))
 
 
 if __name__ == "__main__":
