@@ -82,6 +82,7 @@ class MainWindow(qtw.QWidget):
         self.todo_list.setModel(self.model)
 
         # Connecting buttons with their respective fucntions
+        self.input_box.returnPressed.connect(self.add_item)
         self.add_btn.pressed.connect(self.add_item)
         self.done_btn.pressed.connect(self.complete_item)
         self.edit_btn.pressed.connect(self.edit_item)
