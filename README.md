@@ -10,7 +10,7 @@
 ![calgu](/screenshots/calgulator.gif)
 
 ### Leet Speak App
-![leet](/screenshots/calgulator.gif)
+![leet](/screenshots/leet.gif)
 
 ### Pomodoro App
 ![pomo](/screenshots/pomo.gif)
