@@ -2,3 +2,4 @@
 /graph
 */__pycache__
 .vscode
+.env

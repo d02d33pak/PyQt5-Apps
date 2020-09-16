@@ -158,7 +158,7 @@ class MainWindow(qtw.QWidget):
     def save(self):
         """ To save todo data to local file """
         with open("data.db", "w") as file:
-            _ = json.dump(self.model.todos, file)
+            json.dump(self.model.todos, file)
 
 
 if __name__ == "__main__":

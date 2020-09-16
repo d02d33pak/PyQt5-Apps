@@ -1,5 +1,8 @@
 # PyQt5 Projects
 
+### Weather App
+![weather](/screenshots/weather.png)
+
 ### NotePad--
 ![notepad](/screenshots/notepad.png)
 
