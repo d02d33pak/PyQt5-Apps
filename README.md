@@ -12,6 +12,9 @@
 ### Calculator App
 ![calgu](/screenshots/calgulator.gif)
 
+### Morse Code Converter App
+![morse](/screenshots/morse.gif)
+
 ### Leet Speak App
 ![leet](/screenshots/leet.gif)
 
